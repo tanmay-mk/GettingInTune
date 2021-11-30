@@ -6,8 +6,6 @@
  * 
  * Good explanation at
  * https://www.instructables.com/Reliable-Frequency-Detection-Using-DSP-Techniques/
- *
- *   (although his code is poorly written and has a bug, so I wrote this myself)
  */
 
 #include <stdint.h>

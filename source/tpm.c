@@ -1,8 +1,20 @@
+/*
+ * PES Assignment 7
+ *
+ * File Name: tpm.c
+ *
+ * Author: Tanmay Mahendra Kothale (tanmay.kothale@colorado.edu) (GitHub: tanmay-mk)
+ *
+ */
+
+/*	OTHER FILES TO BE INCLUDED	*/
 #include "tpm.h"
 #include "dac.h"
 
-
-void TPM0_Init_() {
+/*
+ * @brief: see documentation in tpm.h
+ */
+void TPM0_Init() {
 
 	// Gating
 	SIM->SCGC6 |= SIM_SCGC6_TPM0_MASK;
@@ -21,9 +33,10 @@ void TPM0_Init_() {
 	TPM0->SC = TPM_SC_PS(0) | TPM_SC_CPWMS(0) | TPM_SC_CMOD(1) | TPM_SC_DMA_MASK;
 }
 
-
-
-void TPM1_Init_(int sample) {
+/*
+ * @brief: see documentation in tpm.h
+ */
+void TPM1_Init(int sample) {
 
 	// Clock Gating
 	SIM->SCGC6 |= SIM_SCGC6_TPM1_MASK;

@@ -1,3 +1,3 @@
-adc.c:12:6:ADC_Init_	8	static
-adc.c:33:6:ADC_Buffer	24	static
-adc.c:50:6:analysis	56	static
+adc.c:25:6:ADC_Init	8	static
+adc.c:49:6:ADC_Buffer	24	static
+adc.c:72:6:analysis	64	static

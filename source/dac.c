@@ -1,19 +1,33 @@
+/*
+ * PES Assignment 7
+ *
+ * File Name: dac.c
+ *
+ * Author: Tanmay Mahendra Kothale (tanmay.kothale@colorado.edu) (GitHub: tanmay-mk)
+ *
+ */
 
-
-#include "dac.h"
+/*	LIBRARY FILES	*/
 #include "MKL25Z4.h"
 #include "stdio.h"
 #include "string.h"
 
-// Global Variables
+/*	OTHER FILES TO BE INCLUDED	*/
+#include "dac.h"
+
+/*	MACROS	*/
+#define DAC0_PIN 30
+
+/*	GLOBAL VARIABLES	*/
+//declared in adc.h, initialized here
 uint16_t buffer[1024];
 uint32_t count = 0;
 
-#define DAC0_PIN 30
-
-
-void DAC_Init_() {
-
+/*
+ * @brief:see documentation in dac.h
+ */
+void Init_DAC()
+{
 	// Clock Gating
 	SIM->SCGC6 |= SIM_SCGC6_DAC0_MASK; // DAC
 	SIM->SCGC5 |= SIM_SCGC5_PORTE_MASK;
@@ -28,13 +42,13 @@ void DAC_Init_() {
 
     // Set DAC0 to reference voltage from VDDA
     DAC0->C0 = DAC_C0_DACEN_MASK | DAC_C0_DACRFS_MASK;
-
 }
 
-
-
-void DAC_begin(uint16_t *frequency, uint32_t cnt){
-
+/*
+ * @brief:see documentation in dac.h
+ */
+void DAC_begin(uint16_t *frequency, uint32_t cnt)
+{
 	// TPM Disable
 	TPM0->SC &= ~TPM_SC_CMOD_MASK;
 

@@ -1,2 +1,2 @@
-tpm.c:5:6:TPM0_Init_	8	static
-tpm.c:26:6:TPM1_Init_	16	static
+tpm.c:17:6:TPM0_Init	8	static
+tpm.c:39:6:TPM1_Init	16	static

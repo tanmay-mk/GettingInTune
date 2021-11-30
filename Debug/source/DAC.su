@@ -1,2 +1,2 @@
-dac.c:15:6:DAC_Init_	8	static
-dac.c:36:6:DAC_begin	16	static
+dac.c:29:6:Init_DAC	8	static
+dac.c:50:6:DAC_begin	16	static

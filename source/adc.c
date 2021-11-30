@@ -1,15 +1,28 @@
+/*
+ * PES Assignment 7
+ *
+ * File Name: adc.c
+ *
+ * Author: Tanmay Mahendra Kothale (tanmay.kothale@colorado.edu) (GitHub: tanmay-mk)
+ *
+ */
 
-
-#include "adc.h"
+/*	LIBRARY FILES	*/
 #include "MKL25Z4.h"
 #include "stdio.h"
 #include "stdbool.h"
 #include "stdint.h"
 #include "fsl_debug_console.h"
+
+/*	OTHER FILES TO BE INCLUDED	*/
 #include "autocorrelate.h"
+#include "adc.h"
+#include "tpm.h"
 
-
-void ADC_Init_() {
+/*
+ * @brief: see documentation in adc.h
+ */
+void ADC_Init() {
 	// Gating
 	SIM->SCGC6 |= SIM_SCGC6_ADC0_MASK;
 
@@ -28,27 +41,36 @@ void ADC_Init_() {
 	// Enable ADC0 triggering from TPM1 overflow
 	SIM->SOPT7 = SIM_SOPT7_ADC0ALTTRGEN(1) | SIM_SOPT7_ADC0TRGSEL(9);
 
-}
+} //ADC_Init_()
 
-void ADC_Buffer(uint16_t *buffer, uint32_t sample_count) {
-
+/*
+ * @brief: see documentation in adc.h
+ */
+void ADC_Buffer(uint16_t *buffer, uint32_t count)
+{
 	int i =0;
+
 	// Begin TPM
 	BEGIN_TPM1
 
-	for (i =0; i < sample_count; i++) {
+	for (i = 0; i < count; i++)
+	{
 		while (!(ADC0->SC1[0] & ADC_SC1_COCO_MASK))
 		      ;
-
 		buffer[i] = ADC0->R[0];
 	}
 
 	// Stop Sampling
 	STOP_TPM1
-}
 
-void analysis(uint16_t *buffer, uint32_t count) {
+} //ADC_Buffer
 
+
+/*
+ * @brief: see documentation in adc.h
+ */
+void analysis(uint16_t *buffer, uint32_t count)
+{
 	int i=0;
 	uint32_t max, sum = 0;
 	int min;
@@ -56,24 +78,36 @@ void analysis(uint16_t *buffer, uint32_t count) {
 	min = buffer[0];
 	max = buffer[0];
 
-
-	// Keeps to within limit
-	for (i=0; i < count; i++) {
-		if (buffer[i] > max) {
+	for (i=0; i < count; i++)
+	{
+		//if next number is greater than previously computed maximum number
+		//then set next number as maximum number
+		if (buffer[i] > max)
+		{
 			max = buffer[i];
 		}
-		if (buffer[i] < min) {
+
+		//if next number is lesser than previously computed minimum number
+		//then set next number as minimum number
+		if (buffer[i] < min)
+		{
 			min = buffer[i];
 		}
-
 		sum+= buffer[i];
-
 	}
 
-	int period = autocorrelate_detect_period(buffer, count, 1);
-	int frequency = ADC_SAMPLING_FREQUENCY / period;
-	PRINTF("min=%u max=%u avg=%u period=%d frequency=%d Hz\r\n\n",
-	      min, max, sum / count, period, frequency);
+	//calculate the average of the entire buffer
+	int avg = sum/count;
 
-}
+	//get period from autocorrelate function
+	int period = autocorrelate_detect_period(buffer, count, kAC_16bps_unsigned);
+
+	//compute frequency
+	int frequency = ADC_SAMPLING_FREQUENCY / period;
+
+	//print all computations
+	PRINTF("min=%u max=%u avg=%u period=%d frequency=%d Hz\r\n\n",
+			min,   max,   avg,   period,   frequency);
+
+} //analysis
 

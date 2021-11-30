@@ -1,15 +1,35 @@
+/*
+ * PES Assignment 7
+ *
+ * File Name: tone.c
+ *
+ * Author: Tanmay Mahendra Kothale (tanmay.kothale@colorado.edu) (GitHub: tanmay-mk)
+ *
+ */
+
+/*	LIBRARY FILES	*/
+#include "fsl_debug_console.h"
+
+/*	OTHER FILES TO BE INCLUDED	*/
+#include "autocorrelate.h"
+#include "dma.h"
 #include "tone.h"
 #include "dac.h"
 #include "sinx.h"
-#include "fsl_debug_console.h"
-#include "autocorrelate.h"
-#include "dma.h"
 
+/* 	GLOBAL VARIABLES	*/
+//declared in tone.h, initialized here
+int frequencies[TOTAL_NUMBER_OF_TONES] = {A4, D5, E5, A5};
 
-int frequencies[4] = {A4, D5, E5, A5};
+//declared in tone.h, initialized in main.c, used here
 int samples;
+
+//declared in tone.h, initialized in main.c, used here
 uint16_t op_buffer[ADC_BUFFER_SIZE], ip_buffer[ADC_BUFFER_SIZE];
 
+/*
+ * @brief: see documentation in tone.h
+ */
 size_t tone_to_samples(int input_freq, uint16_t *buffer, size_t size) {
 
 	int32_t temp;
@@ -19,7 +39,7 @@ size_t tone_to_samples(int input_freq, uint16_t *buffer, size_t size) {
 
 	for (i=0; i < samples; i++) {
 		// Needs to be converted appropriately
-		temp = fp_sin(i * TWO_PI / ((SAMPLING_FREQUENCY + (input_freq/2)) / input_freq) ) + TRIG_SCALE_FACTOR;
+		temp = sinx(i * TWO_PI / ((SAMPLING_FREQUENCY + (input_freq/2)) / input_freq) ) + TRIG_SCALE_FACTOR;
 		buffer[i] = temp;
 	}
 
@@ -30,6 +50,9 @@ size_t tone_to_samples(int input_freq, uint16_t *buffer, size_t size) {
    return samples;
 }
 
+/*
+ * @brief: see documentation in tone.h
+ */
 void generate_next_tone()
 {
 	PRINTF("Frequency: %d Hz\r\n", frequencies[next_tone]);
