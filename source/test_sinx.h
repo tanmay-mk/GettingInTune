@@ -1,7 +1,7 @@
 /*
  * PES Assignment 7
  *
- * File Name: sinx.h
+ * File Name: test_sinx.h
  *
  * Author: Tanmay Mahendra Kothale (tanmay.kothale@colorado.edu) (GitHub: tanmay-mk)
  *

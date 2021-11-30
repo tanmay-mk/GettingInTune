@@ -1,7 +1,7 @@
 /*
  * PES Assignment 7
  *
- * File Name: sinx.c
+ * File Name: test_sinx.c
  *
  * Author: Tanmay Mahendra Kothale (tanmay.kothale@colorado.edu) (GitHub: tanmay-mk)
  * 			Howdy Pierce (howdy.pierce@colorado.edu)

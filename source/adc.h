@@ -53,5 +53,13 @@ void ADC_Buffer(uint16_t *buffer, uint32_t count);
   -----------------------------------------------------------------*/
 void analysis(uint16_t *buffer, uint32_t count);
 
+/* -----------------------------------------------------------------
+ * @brief		: 	calibrates the ADC before operations
+ *
+ * @parameters	: 	none
+ *
+ * @returns		: 	none
+  -----------------------------------------------------------------*/
+void calibrate_ADC();
 
 #endif /*_ADC_H_*/

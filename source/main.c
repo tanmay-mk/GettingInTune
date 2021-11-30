@@ -51,6 +51,8 @@ int main(void)
     TPM0_Init();
     TPM1_Init(ADC_SAMPLING_FREQUENCY);
     ADC_Init();
+    calibrate_ADC();
+    ADC_Init();
 
     PRINTF("Testing Sine function.\r\n");
     test_sine();

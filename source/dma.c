@@ -28,7 +28,7 @@ void Init_DMA()
 	SIM->SCGC7 |= SIM_SCGC7_DMA_MASK;
 	SIM->SCGC6 |= SIM_SCGC6_DMAMUX_MASK;
 
-	// Disabbling for Configuration
+	// Disabling for Configuration
 	DMAMUX0->CHCFG[0] = 0;
 
 	// interrupt once done, increment src, src size: 16 bits, dest size: 16 bits, enable requests, enable DMA0

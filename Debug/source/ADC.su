@@ -1,3 +1,4 @@
 adc.c:25:6:ADC_Init	8	static
 adc.c:49:6:ADC_Buffer	24	static
 adc.c:72:6:analysis	64	static
+adc.c:114:6:calibrate_ADC	16	static

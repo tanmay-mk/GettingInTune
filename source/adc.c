@@ -111,3 +111,48 @@ void analysis(uint16_t *buffer, uint32_t count)
 
 } //analysis
 
+void calibrate_ADC()
+{
+	//Initialize or clear a 16-bit variable in RAM.
+	uint16_t status = 0;
+
+	//enable software trigger
+	ADC0->SC2 = ADC_SC2_ADTRG(0);
+	//disable ADCO and AVGS bit in ADC0 Status Control 3 register
+	ADC0->SC3 &= (~ADC_SC3_ADCO_MASK & ~ADC_SC3_AVGS_MASK);
+	//Hardware function enabled
+	ADC0->SC3 |= ( ADC_SC3_AVGE_MASK | ADC_SC3_AVGS(0));
+	//Start Calibration
+	ADC0->SC3 |= ADC_SC3_CAL_MASK;
+	//Wait for calibration to be completed
+	while ((ADC0->SC1[0] & ADC_SC1_COCO_MASK ) == 0);
+
+	if((ADC0->SC3 & ADC_SC3_CALF_MASK) == ADC_SC3_CALF_MASK)
+	{
+		PRINTF("\n\rADC Calibration Failed\n\r");
+	}
+	else
+	{
+		PRINTF("\n\rADC Calibration Successful\n\r");
+	}
+	//Calculate plus-side calibration value
+	//Add the plus-side calibration results CLP0, CLP1, CLP2, CLP3, CLP4, and CLPS to the variable
+	status = (ADC0->CLP0 & ADC_CLP0_CLP0_MASK) + (ADC0->CLP1 & ADC_CLP1_CLP1_MASK) + (ADC0->CLP2 & ADC_CLP2_CLP2_MASK) + (ADC0->CLP3 & ADC_CLP3_CLP3_MASK) + (ADC0->CLP4 & ADC_CLP4_CLP4_MASK) + (ADC0->CLPS & ADC_CLPS_CLPS_MASK);
+	//Divide the variable by two
+	status = status / 2;
+	//Set the MSB of the variable
+	status |= 0x8000;
+	//Store the value in the plus-side gain calibration register PG
+	ADC0->PG = ADC_PG_PG(status);
+
+	status = 0;
+
+	//Calculate minus-side calibration value
+	status = (ADC0->CLM0 & ADC_CLM0_CLM0_MASK) + (ADC0->CLM1 & ADC_CLM1_CLM1_MASK) + (ADC0->CLM2 & ADC_CLM2_CLM2_MASK) + (ADC0->CLM3 & ADC_CLM3_CLM3_MASK) + (ADC0->CLM4 & ADC_CLM4_CLM4_MASK) + (ADC0->CLMS & ADC_CLMS_CLMS_MASK);
+	status = status / 2;
+	status |= 0x8000;
+
+	ADC0->MG = ADC_MG_MG(status);
+	//Clear CAL bit
+	ADC0->SC3 &= ~ADC_SC3_CAL_MASK;
+} //calibrate_ADC
