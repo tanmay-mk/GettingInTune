@@ -26,3 +26,6 @@ Encoding: Default (ISO-8859-1)
 For extra credit #1
 Calibration of ADC is implemented and is called in main.c
 The function is declared in adc.h and defined in adc.c
+
+
+Link to the waveforms folder: https://github.com/tanmay-mk/PES-Assignment-7/tree/master/Waveforms
