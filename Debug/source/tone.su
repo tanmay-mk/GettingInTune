@@ -1,0 +1,2 @@
+tone.c:13:8:tone_to_samples	56	static
+tone.c:33:6:generate_next_tone	8	static

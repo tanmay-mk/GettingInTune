@@ -1,0 +1,3 @@
+fp_sine.c:45:9:fp_sin	56	static
+fp_sine.c:97:9:fp_radians	16	static
+fp_sine.c:112:9:interpolate	24	static

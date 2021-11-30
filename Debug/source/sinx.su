@@ -1,0 +1,3 @@
+sinx.c:18:9:fp_sin	56	static
+sinx.c:60:9:fp_radians	16	static
+sinx.c:65:9:interpolate	24	static
